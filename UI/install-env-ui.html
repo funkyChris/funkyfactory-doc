@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	
+	<meta http-equiv="imagetoolbar" content="no" />
+	
+	<meta name="author" content="Christophe Bouthier" />
+	<meta name="copyright" content="copyright 2009 - INRIA" />
+	<meta name="keywords" content="Qualipso, qualipso factory, open-source, quality, service, development" />
+	<meta name="description" content="Documentation for the Qualiso factory - installation of the development environment" />
+	
+	<link rel="stylesheet" href="/commons/css/style.css" type="text/css" />
+	
+	<title>Qualipso Factory - Install environment for user interface development</title>
+</head>
+<body id="www.qualipso.org">
+	
+	<h1 id="title">Qualipso Factory</h1>
+	
+	<div id="content">
+		<h2>Installation of development environment for service user interface development</h2>
+		
+		<div id="introduction">
+			<p>This page contains the necessary instruction to complete the development environment with necessary tools for user interface development. It assume that you have already installed <a href="install-env-service.html">a correct development environment</a>, that you have correctly  <a href="config-jboss.html">configured JBoss</a>, and that you have correctly installed and deployed a service, using the <a href="install-dev-service.html">given Eclipse template</a>. If this is not the case, then you need first to follow the given instruction before proceeding to this page.</p>
+		</div>
+		
+		<div id="checklist">
+		  <p>Here is the checklist of everything that you will need to install:</p>
+		  <ul>
+		    <li>Google Web Toolkit (GWT)</li>
+		    <li>JBoss Seam</li>
+		    <li>GWT plugin for Eclipse</li>
+		    <li>Seam plugin for Eclipse</li>
+		  </ul>
+		</div>
+			
+    <!-- GWT -->
+		<div class="step">
+		  <h3>Step 1: installing Google Web Toolkit (GWT)</h3>
+			<h4>Version needed: 1.7.0</h4>
+			<p>GWT is a technology developped by Google for the development of client web interface that connect to server. The interface is developped directly in Java, and a specific compiler is used to convert it to javascript. Also, specific javascript libs are included to ease the communication with the server. The user interface of a service should be implemented in GWT.</p>
+	  	<p>To install GWT:
+  	  	<ol>
+	    	  <li>
+	    	    Download the <strong>GWT 1.7.0</strong> archive from the Google site:
+			      <a href="http://code.google.com/webtoolkit/download.html">http://code.google.com/webtoolkit/download.html</a>
+			      (You can also download it directly from <a href="http://google-web-toolkit.googlecode.com/files/gwt-linux-1.7.0.tar.bz2">Google Code</a>, or download a copy directly <a href="Packages/gwt-linux-1.7.0.tar.bz2">here</a>).
+			      The zip file is about 29 Mb.
+	    	  </li>
+			    <li>
+			      Choose a directory on your hard drive and unzip the GWT archive "gwt-linux-1.7.0.tar.bz2" there. You can remove the archive file after that.
+			      <img src="Images/gwt-extract.png" />
+			    </li>
+			    <li>
+			      Set up the <code>GWT_HOME</code> environment variable by adding the following line to your .bashrc file:
+	  	      <code>export GWT_HOME=/&lt;<em>path_to_the_chosen_folder</em>&gt;/gwt-linux-1.7.0</code>
+			    </li>
+			    <li>
+			      Add <code>GWT_HOME</code> to your path, by adding the following line to your .bashrc file:
+	  	      <code>export PATH=$PATH:$GWT_HOME</code>
+			    </li>
+			  </ol>
+			</p>
+	    </ol>
+	  	</p>
+	 </div>
+
+    <!-- Seam -->
+		<div class="step">
+		  <h3>Step 2: installing JBoss Seam</h3>
+			<h4>Version needed: 2.1.2.GA</h4>
+			<p>Seam is a technology developped by JBoss for the development of client web interface that connect to server, notably JBoss server. The interface is developed with mixes of JSP, facelets and html, and it include server technology to ease the client-server communications. The Seam technology is used in complement of GWT especially for its server technology: it provide an easy bridge between the GWT client and the EJB on the server. With it, it's easier to access the factory service EJB directly in the GWT client. Be careful about the version number: at the time of this writing, the last version of JBoss Seam is 2.<strong>2.0.GA</strong>. We don't use this version, because it require JBoss AS 5.1.0, and we're using JBoss AS 5.0.1. We use the Seam version appropriate for JBoss AS 5.0.1, that is  Seam 2.<strong>1.2.GA</strong>.</p>
+	  	<p>To install JBoss seam:
+  	  	<ol>
+	    	  <li>
+	    	    Download the <strong>JBoss Seam 2.1.2.GA</strong> archive from the JBoss site:
+			      <a href="http://seamframework.org/Download">http://seamframework.org/Download</a>
+			      (You can also download it directly from <a href="https://sourceforge.net/projects/jboss/files/JBoss%20Seam/jboss-seam-2.1.2.zip/download">SourceForge</a>, or download a copy directly <a href="Packages/jboss-seam-2.1.2.zip">here</a>).
+			      The zip file is about 136 Mb.
+	    	  </li>
+			    <li>
+			      Choose a directory on your hard drive and unzip the Seam archive "jboss-seam-2.1.2.zip" there. You can remove the zip file after that.
+			      <img src="Images/seam-extract.png" />
+			    </li>
+			    <li>
+			      Set up the <code>SEAM_HOME</code> environment variable by adding the following line to your .bashrc file:
+	  	      <code>export SEAM_HOME=/&lt;<em>path_to_the_chosen_folder</em>&gt;/jboss-seam-2.1.2</code>
+			    </li>
+			    <li>
+			      Add <code>SEAM_HOME</code> to your path, by adding the following line to your .bashrc file:
+	  	      <code>export PATH=$PATH:$SEAM_HOME</code>
+			    </li>
+	    </ol>
+	  	</p>
+	 </div>
+
+    <!-- GWT plugin -->
+		<div class="step">
+		  <h3>Step 3: installing GWT plugin for Eclipse</h3>
+			<p>The GWT plugin for Eclipse allows the developer to call the GWT compiler directly from Eclipse, and to create run configurations to launch and debug GWT client. Especially, GWT allows for 2 modes of client running: a "real" mode, where the client is deployed on the server and tested through a real web browser, or a "hosted" mode, where the client is tested directly as java, but still connected to the server. The hosted mode allow for easy debugging of the user interface. With the GWT plugin for eclipse, it is possible to create run configuration to run the client in "hosted" mode, directly from Eclipse.</p>
+	  	<p>
+		    Installation of an Eclipse plugin is done directly within Eclipse:
+		    <ol>
+		      <li>
+		        Go to "Help" -> "Install New Software...": 
+			      <img src="Images/install-eclipse-plugin.png" />
+          </li>
+          <li>
+	          Fill the "Work with:" field with the following site URL, and then click the "Add..." button:
+			      <samp>
+	  	        <kbd>http://dl.google.com/eclipse/plugin/3.5</kbd>
+	  	      </samp>
+			    </li>
+			    <li>
+	          Fill the "Name:" field with the <samp>GWT</samp> name and click the "OK" button.
+			    </li>
+			    <li>
+            Check all packages to install, and click the "Next &gt;" button:
+			      <img src="Images/install-eclipse-gwt-package.png" />
+			    </li>
+			    <li>
+	          In the install summary, click again the "Next &gt;" button, and in the license panel, accept the license and click on the "Finish button":
+			    </li>
+		    </ol>
+	  	</p>
+	 </div>
+	    
+    <!-- Seam plugin -->
+		<div class="step">
+		  <h3>Step 4: installing Seam plugin for Eclipse</h3>
+			<p>The Seam plugin for Eclipse allows the developer specific actions and views on seam project.</p>
+	  	<p>
+		    Installation of an Eclipse plugin is done directly within Eclipse:
+		    <ol>
+		      <li>
+		        Go to "Help" -> "Install New Software...": 
+			      <img src="Images/install-eclipse-plugin.png" />
+          </li>
+          <li>
+	          Click on the arrow at the right of the "Work with:" field, and select the JBoss repository (you added it when you added the JBoss plugin):
+			      <img src="Images/install-eclipse-seam-site.png" />
+			    </li>
+			    <li>
+            In the "JBoss Tools", check the seam package, and click the "Next &gt;" button:
+			      <img src="Images/install-eclipse-seam-package.png" />
+			    </li>
+			    <li>
+	          In the install summary, click again the "Next &gt;" button, and in the license panel, accept the license and click on the "Finish button":
+			    </li>
+		    </ol>
+	  	</p>
+	 </div>
+		
+		<div id="conclusion">
+			<p>Once you successfully finished those steps, you're ready to <a href="install-dev-ui.html">install the Eclipse template</a> to create a factory service user interface.</p>
+		</div>
+    
+	</div>
+</body>
+</html>

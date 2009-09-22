@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	
+	<meta http-equiv="imagetoolbar" content="no" />
+	
+	<meta name="author" content="Christophe Bouthier" />
+	<meta name="copyright" content="copyright 2009 - INRIA" />
+	<meta name="keywords" content="Qualipso, qualipso factory, open-source, quality, service, development" />
+	<meta name="description" content="Documentation for the Qualiso factory - installation and overview of the service development template" />
+	
+	<link rel="stylesheet" href="/commons/css/style.css" type="text/css" />
+	
+	<title>Qualipso Factory - Install template for  user interface development</title>
+</head>
+<body id="www.qualipso.org">
+	
+	<h1 id="title">Qualipso Factory</h1>
+	
+	<div id="content">
+		<h2>Installation of Eclipse template for service user interface development</h2>
+		
+		<div id="introduction">
+			<p>This page contains the necessary instructions to install an Eclipse template for developing the user interface of a factory abstractService. It also contains an overview of everything given in this template. I. It assume that you have already installed <a href="install-env-service.html">a correct development environment</a>, that you have correctly  <a href="config-jboss.html">configured JBoss</a>, that you have correctly installed and deployed a service, using the <a href="install-dev-service.html">given Eclipse template</a>, and that you correctly installed the necessary <a href="install-env-ui.html">technologies for user interfaces</a>. If this is not the case, then you need first to follow the given instruction before proceeding to this page.</p>
+		</div>
+		
+		<div class="step">
+			<h3>Installing the template</h3>
+			<p>To install the template, you need to get the template from git inside the eclipse workspace folder, and to import the project in eclipse</p>
+      <p>
+			  <ol>
+			    <li>
+  			    Go to the "funkyfactory" folder, where you did checked out the service template folder a few steps ago:
+	  	      <samp>
+	  	        <kbd>cd &lt; insert the path to your workspace folder here &gt;/funkyfactory</kbd>
+      	    </samp>
+      	  </li>
+      	  <li>
+            Get the template from git with the following command:
+      	    <samp>
+	    	      <kbd>git clone git://github.com/funkyChris/funkyfactory-ui-clock.git</kbd>
+      	    </samp>
+      	    This will create a new "funkyfactory-ui-clock" folder inside the "funkyfactory" folder, near the "funkyfactory-service-clock" folder.
+      	  </li>
+      	  <li>
+      	    Go in the newly created "funkyfactory-ui-clock" folder, and edit the pom.xml file. Search for the "&lt;jboss.home&gt;" tag, and change the path to your own JBoss folder:
+      	    <img src="Images/pom-jboss-ui.png" />
+      	  </li>
+      	  <li>
+      	    Launch Eclipse, and in the "File" menu, select the "Import..." menu item:
+      	    <img src="Images/import-service-import.png" />
+      	  </li>
+      	  <li>
+      	    Open the "Maven" section, and choose "Existing Maven Projects":
+      	    <img src="Images/import-service-maven.png" />
+      	    (If there is no "Existing Maven Projects" in the "Maven" section, search for a "Maven Projects" in the "General" section:)
+      	    <img src="Images/import-service-maven-2.png" />
+      	    (You can also check if there's no update for eclipse plugins:)
+        	  <img src="Images/check-update.png" />
+      	  </li>
+      	  <li>
+      	    Click on the "Browse" button to navigate to the "funkyfactory" folder you created earlier, (but don't click "OK" yet!):
+      	    <img src="Images/import-service-browse.png" />
+      	  </li>
+      	  <li>
+      	    In the "funkyfactory" folder, go in the "funkyfactory-ui-clock" folder (created for you by git). In it, select the "funkyfactory-ui-clock" folder, and click the "OK" button:
+      	    <img src="Images/import-ui-select.png" />
+      	  </li>
+      	  <li>
+      	    Eclipse should find the pom file of the project. You can then click on the "Finish" button:
+      	    <img src="Images/import-ui-pom.png" /> 
+      	  </li>
+      	  <li>
+      	    Eclipse will import the maven project, and try to resolve all maven dependencies as defined in the pom.xml file. It will download all necessary jar files in your ".m2" folder, at the root of your home directory. Repeat the precedent steps ("File" -> "Import" ; "Maven" -> "Existing Maven Projects" ; "Browse") for the 2 remaining maven projects, inside the "funkyfactory/funkyfactory-ui-clock" folder:
+      	     <ul>
+      	        <li>funkyfactory-service-clock-ejb</li>
+       	        <li>funkyfactory-service-clock-ui</li>
+      	     </ul>
+      	  </li>
+        </ol>
+      </p>
+      <p>
+        Once you imported the 3 maven project, you should have something like this in Eclipse:
+        <img src="Images/import-ui-final.png" />
+      </p>
+    </div>	
+    
+    <div class="step">
+      <h3>Template content</h3>
+      <p>
+        The template contains 3 projects, each with its own specific role:
+        <dl>
+          <dt>funkyfactory-ui-clock-ejb</dt>
+      	    <dd>The bridge to the EJB service. It's a EJB, that access the service EJB, but tagged with Seam's annotations, to be able to be called by the GWT interface.</dd>
+          <dt>funkyfactory-ui-clock-ui</dt>
+       	    <dd>The UI itself. It contains the Java source that will be compiled in Javascript, and produce a war item.</dd>
+          <dt>funkyfactory-ui-clock</dt>
+            <dd>Package the EJB jar and UI war inside an EAR container. It contains only configuration files necessary for the creation of the EAR.</dd>
+      	</dl>
+      </p>
+    </div>
+    
+    <div class="step">
+      <h3>funkyfactory-ui-clock-ejb</h3>
+      <p>
+        The goal of this project is to create a bridge between the GWT interface (client interface in Javascript) and the EJB of the service. As itself, GWT cannot access directly EJBs. So, we use Seam to create a bridge between GWT and EJB. This bridge is an EJB, so that it can access services EJB, but tagged with Seams annotations. Those Seams annotations, with the addition of a .gwt.xml config file, allow the EJB to be called by GWT: Seams recognise the annotations and create a specific servlet that do the bridge between GWT and the Seams EJB. The project containts 2 area of interests:
+        <img src="Images/content-ui-service.png" />
+        <dl>
+          <dt>src/main/java</dt>
+          <dd>Contains the main sources of the bridge.
+            <ul>
+              <li>The "xxx.gwt.xml" contains the definition of the GWT service. It just points to the folder containing the Java source of the interface of the bridge. The client interface will need access to the interface to be able to know which methods to call on the bridge, and how. As the client interface will be compiled in javascript, the GWT compiler need access not to the jar but directly to the <strong>source code</strong> defining the interfaces. This config file define the bridge as a "gwt module", and point to the folder containing the sources of the bridge interface. Later, the sources of those interfaces (and <strong>only</strong> the source of the interfaces) will be copied in the jar.</li>
+              <li>The "impl" package contains the implementation of the bridge. It's a standard EJB, accessing factory services EJB through EJB annotations, and tagged with Seams annotations. The EJB implement the interface defined in the "service" package.</li>
+              <li>The "service" package contains the definition of the interfaces. GWT needs two interfaces, one implementing "RemoteInterface", that will be implemented by the bridge, and a derivation of this interface, for asynchronous calls. The interfaces are defined in a separate package from the implementation so that only their sources (and not the source of the implementation) is included in the jar (for the compilation of the GWT client interface).</li>
+            </ul>
+          </dd>
+          <dt>src/main/resources</dt>
+          <dd>Contains the configuration files for the bridge.
+            <ul>
+              <li>"META-INF/ejb-jar.xml" is used by to do the connection between the bridge and Seam.</li>
+              <li>"META-INF/MANIFEST.MF" define the classpath to jars used by the bridge. The jar themselfs are defined in the pom.xml file of the EAR project, and will be downloaded and put in the EAR when building the EAR project.</li>
+              <li>"META-INF/persistence.xml" define the persistence unitused by the bridge. Here, the bridge use the default persistence unit.</li>
+              <li>"components.properties" is used by Seam to define the JDNI name of the bridge.</li>
+              <li>"log4j.properties" define the log level for the bridge.</li>
+              <li>"seam.properties" is an empty file, necessary for Seam to recognise the bridge as a Seam component.</li>
+            </ul>
+          </dd>
+        </dl>
+      </p>
+      <p>
+        To compile the project, do a right-click on the project root folder ("funkyfactory-ui-clock-ejb"), and in the contextual menu, select "Run As" -> "Maven package":
+        <img src="Images/mvn-ui-ejb-package.png" />
+        This will compile the java classes and create the necessary jar file. You can check the compilation in the console view:
+        <img src="Images/mvn-ui-ejb-console.png" />
+      </p>
+      <p>
+        When the package build correctly, you can deploy the jar directly in your local maven repository (the ".m2" folder at the root of your home directory) by selecting, in the same contextual menu, "Run As" -> "Maven install":
+        <img src="Images/mvn-ui-ejb-install.png" />
+        This step is necessary for the funkyfactory-ui-clock-ui project in order to compile the gwt interface, as the sources of the bridge interfaces are in the funkyfactory-ui-clock jar, and the project use maven dependency to find it. Same thing for funkyfactory-ui-clock project, which need the ejb jar to create the ear.
+        If you want, you can check that maven has correctly published the ejb jar in the folder "~/.m2/repository/org/qualipso/funkyfactory-ui-clock-ejb/0.0.1":
+        <img src="Images/m2-ui-ejb.png" />
+        The version number ("0.0.1") is defined directly in the pom.xml file, and should be incremented with each new version.
+      </p>
+    </div>
+		
+		<div class="step">
+      <h3>funkyfactory-ui-clock-ui</h3>
+      <p>
+        This project contains the real user interface, defined in Java, to be compiled to Javascript. It containts 3 area of interests:
+        <img src="Images/content-ui-ui.png" />
+        <dl>
+          <dt>src/main/java</dt>
+          <dd>Contains the sources of the user interface.
+            <ul>
+              <li>The "xxx.gwt.xml" contains the definition of the GWT module for the interface. It reference the module containing the source of the bridge interface, and define the entry point for GWT.</li>
+              <li>The java file contains the real interface. It define the interface in Java, using GWT ui components, and call the bridge EJB.</li>
+            </ul>
+          </dd>
+          <dt>"war/META-INF" and "war/WEB-INF"</dt>
+          <dd>Contains several configuration files for the war, used by the Seam parts of the interface. The GWT interface is encapsulated in a Seam war, in order to communicate with the bridge. Those configuration files are used by the war.</dd>
+        </dl>
+      </p>
+      <p>
+        Before compiling the project, there is one modification to do, in the "pom.xml" file. The GWT compiler tool needs to access libs that are in the GWT folder you installed previously. You need to put the path to those libs directly in the pom file:
+        <ul>
+          <li>
+            Open the "pom.xml" file, and at the end of the file, search for the dependencies to "gwt-user" and "gwt-dev":
+            <img src="Images/modif-pom-ui.png" />
+          </li>
+          <li>
+            For both properties, change the path defined in "systemPath" to the correct path to the libraries, based on the value of your GWT_HOME.
+          </li>
+        </ul>
+      </p>
+      <p>
+        To compile the project, do a right-click on the project root folder ("funkyfactory-ui-clock-ui"), and in the contextual menu, select "Run As" -> "Maven package":
+        <img src="Images/mvn-ui-ui-package.png" />
+        This will compile the java classes into Javascript, and generate everything necessary (javascript, html) in a "funkyfactory-ui-clock-ui" directly in the war.
+        <img src="Images/mvn-ui-ui-generated.png">
+        You can check the compilation in the console view:
+        <img src="Images/mvn-ui-ui-console.png" />
+      </p>
+      <p>
+        When the package build correctly, you can deploy the jar directly in your local maven repository (the ".m2" folder at the root of your home directory) by selecting, in the same contextual menu, "Run As" -> "Maven install":
+        <img src="Images/mvn-ui-ui-install.png" />
+        This step is necessary for the funkyfactory-ui-clock project to create the ear.
+        If you want, you can check that maven has correctly published the ejb jar in the folder "~/.m2/repository/org/qualipso/funkyfactory-ui-clock-ui/0.0.1":
+        <img src="Images/m2-ui-ui.png" />
+        The version number ("0.0.1") is defined directly in the pom.xml file, and should be incremented with each new version.
+      </p>
+		</div>
+		
+		<div class="step">
+      <h3>funkyfactory-ui-clock</h3>
+      <p>
+        The unique goal of this project is to package the EJB jar and the ui war of the two precedent projects in a deployable ear.
+        <img src="Images/content-ui-ear.png" />
+        The project contains nothing as everything is defined in its pom.xml file.
+      </p>
+      <p>
+        The creation of the ear is done with a "maven package" command. However, due to a bug in the Eclipse maven plugin. you need to define a new Eclipse run configuration:
+        <ol>
+          <li>
+            Do a right-click on the project root folder ("funkyfactory-ui-clock"), and in the contextual menu, select "Run As" -> "Run Configurations...":
+            <img src="Images/create-run-config-ui.png" />
+          </li>
+          <li>
+            Select "Maven Build" in the left list, and then click on the "New launch configuration" button:
+            <img src="Images/create-run-config-new.png" />
+          </li>
+          <li>
+            Set up the new configuration: fills up the "Name" field with "funkyfactory-ui-clock EAR" and click on the "Browse Workspace..." button to select the "funkyfactory-ui-clock" workspace. Then, click on the "Apply" button to save the configuration. You can now press the "Run" button to launch the newly created and saved configuration.
+            <img src="Images/create-run-config-params-ui.png" />
+             You can check the creation of the ear in the console view:
+            <img src="Images/build-ui-ear.png" />
+          </li>
+        </ol>
+        Once the configuration is saved, you don't have to recreate it each time. To relaunch the created run configuration, do a right-click on the project root folder ("funkyfactory-ui-clock"), in the contextual menu, select "Run As" -> "Run Configurations...", select your configuration in the left-side list, and click on the run button (bottom right).
+      </p>
+      <p>
+        <ol>
+          <li>
+            In order to deploy the service, you need to have a running JBoss, with the service deployed on it, as described <a href="install-dev-service.html">here</a>. 
+            The newly created ear will apply in a "target" folder, at the root of the project. If you don't see such a folder, refresh the project root folder ("F5" key).
+            In the "target" folder, select the created ear ("funkyfactory-ui-clock-0.0.1.ear"), right-click on it, and in the contextual menu, select "Make Deployable":
+            <img src="Images/deployable-ear-ui.png" />
+            The ear will appears in the "Servers" view, under the "JBoss 5.01 Local":
+            <img src="Images/ui-ear-deployed.png" />
+            And you can follow the deployement and check if there is any problem in the console:
+            <img src="Images/ui-ear-deployed-console.png" />
+          </li>
+          <li>
+            If you change something in the EJB code and want to redeploy the ear, don't forget to undeploy the ear before: in the "Servers" view, right-click on the "funkyfactory-service-clock-ear", and in the contextual menu, select "Remove":
+            <img src="Images/ui-ear-undeploy.png" />
+            You can follow the undeployement in the console:
+            <img src="Images/ui-ear-undeploy-console.png" />
+          </li>
+        </ol>
+      </p>
+		</div>
+		
+		<div class="step">
+      <h3>Run the example</h3>
+      <p>
+         In order to deploy the service, you need to have a running JBoss, with the service and its ui deployed on it:
+        <img src="Images/all-deployed.png" />
+      </p>
+      <p>You can run the example in two modes: in real mode, and in hosted mode.</p>
+      <p>
+        To run the example in real mode, just open your web browser and enter the following url:
+        <kbd>http://localhost:8080/funkyfactory-ui-clock/</kbd>
+        <img src="Images/running-example.png" />
+        Click on the button, and the server's date will appears:
+        <img src="Images/running-example-result.png" />
+        The button and the result window are GWT components, in Javascript. When you click on the button, the GWT component ask to the ejb bridge, which ask to the ejb service (funkyfactory-service-clock-ejb), which return the current date.
+        You can follow the call to the service on JBoss console view:
+        <img src="Images/running-example-console.png" />
+      </p>
+      <p>
+        To run the example in hosted mode (easier for debugging), you need to create a special run configuration so that the hosted mode still use the JBoss server. This is done on the factory-ui-clock-ui project, as that's the project containing the gwt client interface':
+        <ol>
+          <li>
+            Do a right-click on the ui project root folder ("funkyfactory-ui-clock-ui"), and in the contextual menu, select "Run As" -> "Run Configurations...":
+            <img src="Images/create-run-config-ui-ui.png" />
+          </li>
+          <li>
+            Select "Web Application" in the left list, and then click on the "New launch configuration" button:
+            <img src="Images/gwt-run-config.png" />
+          </li>
+          <li>
+            Set up the new configuration: fills up the "Name" field with "funkyfactory-ui-clock" and click on the "Browse Workspace..." button to select the "funkyfactory-ui-clock-ui" workspace. Then, uncheck the "Run built-in server" check box.
+            <img src="Images/gwt-run-config-params.png" />
+          </li>
+          <li>
+            In the "GWT" tab, set the "URL" field to the following url:
+            <kbd>http://localhost:8080/funkyfactory-ui-clock/</kbd>
+            and click on the "Apply" button to save the configuration.
+            <img src="Images/gwt-run-config-params-2.png" />
+        </li>
+        <li>
+          You can now press the "Run" button to launch the newly created and saved configuration
+            In hosted mode, you have two windows: a main one, and a browser one. The browser one is the same as a web browser.
+             <img src="Images/running-hosted.png" />
+            The difference is that you can use it to debug the interface code, by calling the run target you just defined with the "Debug as..." menu item instead of the "Run as..." menu item.
+          </li>
+        </ol>
+        Once the configuration is saved, you don't have to recreate it each time. To relaunch the created run configuration, do a right-click on the project root folder ("funkyfactory-ui-clock-ui"), in the contextual menu, select "Run As" -> "Run Configurations...", select your configuration in the left-side list, and click on the run button (bottom right).
+      </p>
+    </div>
+		
+		<div id="conclusion">
+			<p>Once you're at this step, you have everything to write your own service and its user interface.</p>
+		</div>
+    
+	</div>
+</body>
+</html>
