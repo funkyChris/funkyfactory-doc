@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	
+	<meta http-equiv="imagetoolbar" content="no" />
+	
+	<meta name="author" content="Christophe Bouthier" />
+	<meta name="copyright" content="copyright 2009 - INRIA" />
+	<meta name="keywords" content="Qualipso, qualipso factory, open-source, quality, service, development" />
+	<meta name="description" content="Documentation for the Qualiso factory - installation of the development environment" />
+	
+	<link rel="stylesheet" href="commons/css/style.css" type="text/css" />
+	<link rel="stylesheet" href="commons/css/lightbox.css" type="text/css" media="screen" />
+	
+	<script type="text/javascript" src="commons/js/prototype.js"></script>
+  <script type="text/javascript" src="commons/js/scriptaculous.js?load=effects,builder"></script>
+  <script type="text/javascript" src="commons/js/lightbox.js"></script>
+	
+	<title>Qualipso Factory - Tutorial - Part I</title>
+</head>
+<body id="www.qualipso.org">
+	
+	<h1>Qualipso Factory</h1>
+	
+  <div id="wrapper">
+  	
+	<div id="menu">
+	 <div id="menu_global">
+  	  <h2>Tutorial map:</h2>
+	  	<ol>
+	  	  <li id="selected"><a href="create-new-service.html">Create a new service</a></li>
+	  	  
+	    </ol>
+	  </div>
+	  <div id="menu_local">
+		  <h2>Steps for this level:</h2>
+		  <ul>
+		    <li><a href="#CREATION">Project creation</a></li>
+		    <li><a href="#INTERFACE">Service interface</a></li>
+		    <li><a href="#EXCEPTION">Service exception</a></li>
+		    <li><a href="#RESOURCE">Service resource</a></li>
+		    <li><a href="#IMPLEMENTATION">Service implementation</a></li>
+	    </ul>
+	 </div>
+	</div>
+	
+	<div id="content">
+		<h2>Creating a new service</h2>
+		
+		<div id="introduction">
+			<p>The goal of this multiparts tutorial is to make you create a fully-functionnal service for the Qualipso factory, a service that will use all the functionnalities provided by the Qualipso factory. The tutorial will  address all the aspects of the factory, and you will learn how and when to use them. It will go gently about technologies (EJB, WebServices, JAAS, Eclipse, ...), so you may be able to follow it without expert knowledge about them. Still, it will be easier if you already know the basic concepts of those technos. The only strong requierement is that you already have a working and configured environment, as described <a href="install-env-service.html">here</a>.</p>
+			<p>On this first part of the tutorial, you will learn how to create a new basic empty service (based on the clock template), so that you have the necessary structure to develop a real service.</p>
+			<p>The service that you will create will be a local twitter service (no connection to the real Twitter), allowing a user to tweet about its activites under its profile.</p>
+		</div>
+		
+		<div id="checklist">
+		  <h3>Checklist</h3>
+		  <p>Here is the checklist of everything that you will do on this level:</p>
+		  <ul>
+		    <li><a href="#CREATION">Creation of the project</a></li>
+        <li><a href="#INTERFACE">Definition of the service interface</a></li>
+        <li><a href="#EXCEPTION">Definition of the service exception</a></li>
+        <li><a href="#RESOURCE">Definition of the service resource</a></li>
+        <li><a href="#IMPLEMENTATION">Definition of the service basic implementation</a></li>
+		  </ul>
+		</div>
+			
+    <!-- Creation -->
+		<div class="step">
+		  <h3><a name="CREATION"></a>Step 1: Create a new project</h3>
+			<p>Each service correspond to three differents projects under Eclipse:</p>
+			<ul class="projects">
+			  <li>a project containing the service itself, and its unit tests</li>
+			  <li>a project containing the functional tests of the service</li>
+			  <li>a project containing the webservice tests of the service</li>
+			</ul>
+			<p>Right now, you need at least one project for the service itself (you will create the functional and webservices tests afterward, once you have basic functionalities for the service). You will create this project by copying and modifying the template existing project (<em>funkyfactory-service-clock</em>):</p>
+			<ol>
+			  <li>
+			  Go in the <em>funkyfactory/funkyfactory-service</em> folder, duplicate the <em>funkyfactory-service-clock</em> folder, and rename it <kbd>funkyfactory-service-twitter</kbd>
+			  <a href="images/full/tut-copy-folder-service.png" rel="lightbox" title="Duplicating project folder"><img src="images/preview/tut-copy-folder-service.png" alt="Duplicating project folder"/></a>
+			   </li>
+			   <li>
+			      Go in the newly created <em>funkyfactory-service-twitter</em>, and edit the pom.xml file. You need to replace the following elements:
+			      <ul class="projects">
+			        <li><em>artifactid</em> -&gt; <kbd>funkyfactory-service-twitter</kbd></li>
+			        <li><em>name</em> -&gt; <kbd>funkyfactory-service-twitter</kbd></li>
+			        <li><em>version</em> -&gt; <kbd>0.0.1</kbd></li>
+			        <li><em>finalName</em> -&gt; <kbd>funkyfactory-service-twitter</kbd></li>
+			      </ul>
+			      <a href="images/full/tut-modif-pom-service.png" rel="lightbox" title="Modifying project pom"><img src="images/preview/tut-modif-pom-service.png" alt="Modifying project pom"/></a>
+			   </li>
+			   <li>
+			      Still in the newly created <em>funkyfactory-service-twitter</em>, remove the "target" folder if it's present.
+			   </li>
+			   <li>
+			      In Eclipse, import the <em>funkyfactory-service-twitter</em> as a Maven project:
+			      <a href="images/full/tut-import-maven-project.png" rel="lightbox" title="Importing the maven project"><img src="images/preview/tut-import-maven-project.png" alt="Importing the maven project"/></a>
+			   </li>
+			   <li>
+			      Once imported, files and packages in the project still have the "Clock" in their name:
+			      <a href="images/full/tut-imported-project.png" rel="lightbox" title="Files to change in the project"><img src="images/preview/tut-imported-project.png" alt="Files to change in the project"/></a>
+			      You need to change that, using the "Refactor" function of Eclipse. Right-click on the <em>"org.qualipso.funkyfactory.service.clock"</em> package, in the <em>"src/main/java"</em> folder, and in the contextual menu, select "Refactor" -&gt; "Rename...":
+			      <a href="images/full/tut-rename-package.png" rel="lightbox" title="Select package to rename"><img src="images/preview/tut-rename-package.png" alt="Select package to rename"/></a>
+			      Change the name to <kbd>org.qualipso.funkyfactory.service.twitter</kbd> and click on "OK":
+			      <a href="images/full/tut-rename-package-2.png" rel="lightbox" title="Rename package"><img src="images/preview/tut-rename-package-2.png" alt="Rename package"/></a>
+			   </li>
+			   <li>
+			      Do the same refactoring for the following elements:
+			        <ul class="projects">
+			          <li><em>ClockService.java</em> -&gt; <kbd>TwitterService.java</kbd></li>
+			          <li><em>ClockServiceBean.java</em> -&gt; <kbd>TwitterServiceBean.java</kbd></li>
+			          <li><em>ClockServiceException.java</em> -&gt; <kbd>TwitterServiceException.java</kbd></li>
+			          <li><em>org.qualipso.funkyfactory.test.clock.ejb</em> -&gt; <kbd>org.qualipso.funkyfactory.test.twitter.ejb</kbd></li>
+			          <li><em>ClockServiceTest.java</em> -&gt; <kbd>TwitterServiceTest.java</kbd></li>
+			        </ul>
+			     </li>
+			     <li>
+			        Once this is done, the project content should look like this:
+			        <a href="images/full/tut-clean-project.png" rel="lightbox" title="All files renamed"><img src="images/preview/tut-clean-project.png" alt="All files renamed"/></a>
+			   </li>
+			</ol>
+	 </div>
+	 
+    <!-- Interface -->
+		<div class="step">
+		  <h3><a name="INTERFACE">Step 2: Define the service interface</a></h3>
+			<p>Once the project infrastructure is done, the first thing to do is to define the interface of the service you want to create. This is done in the <em>TwitterService.java</em> file, in <em>src/main/java</em>.</p>
+			<ol>
+			  <li>
+			  Define a Java interface, called <kbd>"TwitterService"</kbd>. This interface should extend the <em>FactoryService</em> interface, provided by the factory, in order for the service to be recognised as an abstract service. This is mandatory.
+			  <pre><samp><span class="new">
+public interface TwitterService extends FactoryService {
+
+}
+	    	  </span></samp></pre>
+			  </li>
+			  <li>
+			  <p>In this interface, define the methods that you want your service to provide to others. Don't forget that the service is stateless: it doesn't maintain any session information between two requests. So you need to design your methods signatures so that all necessary information are passed to the service. One exception to that is the name of the current user, which is taken care of by the authentication and the membership service (more on that later).</p>
+			  <p>In this example, the TwitterService will represent the tweet with a <em>Tweet</em> class. This <em>Tweet</em> class will be a factory resource, managed by the TwitterService (it will be defined later in this tutorial).</p>
+			  <p>The TwitterService defines the following methods:</p>
+			  <ul class="projects">
+			    <li><kbd>twit(String tweet)</kbd> create a new tweet for the currently logged user</li>
+			    <li><kbd>Tweet[] getAllTweets(String userProfilePath)</kbd> returns all tweets of specified user</li>  
+			  </ul>
+			  <p>Of course, those methods are not enough for a <em>real</em> twitter service, but they are enough for this tutorial.</p>
+			  <p>Thoses methods should be defined as throwing a <em>TwitterServiceException</em>, an exception specific for your service. This exception is defined in the file of the same name (more on that on the next step).</p>
+			  <pre><samp>
+public interface TwitterService extends FactoryService {<kbd class="new">
+  public void twit(String tweet) 
+    throws TwitterServiceException;
+    
+  public Tweet[] getAllTweets(String userProfilePath) 
+    throws TwitterServiceException; </kbd>
+}
+	    	    </samp></pre>
+			  </li>
+			  <li>
+			    <p>Once the methods are defined, it is necessary to make this interface remotely accessible. The service should provide two remote access: a RMI remote access, for other EJB or servlets for example, and a web service access, in SOAP. Both those access are defined by adding specific annotations to the interface.</p>
+			   <p>To provide a RMI remote access, you only need to add a <kbd>@Remote</kbd> annotation to the interface itself:</p>
+			   	<pre><samp><kbd class="new">
+@Remote</kbd>
+public interface TwitterService extends FactoryService {
+  public void twit(String tweet) 
+    throws TwitterServiceException;
+    
+  public Tweet[] getAllTweets(String userProfilePath) 
+    throws TwitterServiceException; 
+}
+	    	    </samp></pre>
+			  </li>
+			  <li>
+			    <p>To provide a web service SOAP remote access, you need to add several annotations:</p>
+			    <ul>
+			      <li>You need to add a <kbd>@WebService</kbd> annotation on the interface itself. In this annotation, you define the name under which the generated webservice will be known, and its namespace. As a convention, in the factory, the webservice name is the same as the interface, and the target namespace is <kbd>http://org.qualipso.funkyfactory.ws/service</kbd> (but you can change if you have a good reason to do so)</li>
+			      <li>You also need to add a <kbd>@SOAPBinding</kbd> annotation to the interface, to define which SOAP binding the web service will use. As a convention, in the factory, the web service use a RPC binding (same thing, you can change that if you have a good reason)</li>
+			      <li>You need to add a <kbd>@WebMethod</kbd> annotation to each and all methods that you want to be accessible through the webservice access, that is ALL methods defined in the interface, in the case of a FactoryService interface.</li>
+			      <li>Finally, you need to add a <kbd>@WebResult</kbd> annotation to each method that return a result. The annotation define the SOAP name that will contains the return value.</li>
+			    </ul>
+			    <pre><samp>
+@Remote<kbd class="new">
+@WebService(name = "TwitterService", 
+  targetNamespace = "http://org.qualipso.funkyfactory.ws/service")
+@SOAPBinding(style = SOAPBinding.Style.RPC)</kbd>
+public interface TwitterService extends FactoryService {
+<kbd class="new">
+  @WebMethod</kbd>
+  public void twit(String tweet) 
+    throws TwitterServiceException;
+<kbd class="new">
+  @WebMethod
+  @WebResult(name = "tweets")</kbd>
+  public Tweet[] getAllTweets(String userProfilePath) 
+    throws TwitterServiceException; 
+}
+	    	    </samp></pre>
+			    With those annotation, JBoss will automatically provide a web service SOAP remote access to the service, following the preferences specified in the annotations.
+			  </li>
+			</ol>	 
+	  </div>
+	 
+    <!-- Exception -->
+		<div class="step">
+		  <h3><a name="EXCEPTION">Step 3: Define the service exception</a></h3>
+			<p>The interface is declaring methods that return a <em>TwitterServiceException</em> exception. This class is defined in the <em>TwitterServiceException.java</em> file, in <em>src/main/java</em>. You should have a template implementation of this file, thanks to the refactoring of <em>ClockServiceException.java</em>. This template implementation is enough for the example, and  you shouldn't have to modify anything for this tutorial.</p>
+			<p>Such a service exception extends the <em>FactoryException</em> class, and should implement three constructors, for each and both parameters (the exception message and the root exception that caused this exception). It doesn't need any other methods, as everything is defined in the <em>FactoryException</em> class (especially accessors methods). The service exception class also need to be annotated with the <kbd>@WebFault</kbd> annotation, so that the exception can be propagated through SOAP messages, when the service is accessed through its webservice interface.</p>
+			<p>Again, if you refactored the <em>ClockServiceException.java</em>, you should have a perfectly functionnal <em>TwitterServiceException</em>, and you don't need to change anything in it.</p>
+		</div>
+
+    <!-- Resource -->
+		<div class="step">
+		  <h3><a name="RESOURCE">Step 4: Define the service resource</a></h3>
+			<p>bla</p>
+		</div>	 
+
+    <!-- Implementation -->
+		<div class="step">
+		  <h3><a name="IMPLEMENTATION">Step 5: Define the service basic implementation</a></h3>
+			<p>bla</p>
+		</div>	 
+
+		<div id="conclusion">
+			<p>conclusion <a href="suivant.html">lien vers suivant</a>.</p>
+		</div>
+	</div>
+	</div>
+	
+	<div id="footer">
+	  <div id="validation">
+      <a class="xhtml" href="http://validator.w3.org/check?uri=referer">xhtml</a>
+      <a class="css" href="http://jigsaw.w3.org/css-validator/check/referer">css</a>
+    </div>
+	</div>
+
+</body>
+</html>

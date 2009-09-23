@@ -82,7 +82,7 @@
 			
     <!-- Java -->
 		<div class="step">
-		  <h3><a name="JDK">Step 1: installing Java</a></h3>
+		  <h3><a name="JDK"></a>Step 1: installing Java</h3>
 			<h4>Version needed: JDK 1.6</h4>
 			<p>Everything in the qualiso factory is done in Java. So the very first step is to ensure that Java is running on the system. However, there are two things that need to be taken care of: the version of Java and the kind of Java environment. There are at least 3 versions of Java currently available (1.5, 1.6, and 1.7), and there are 2 kinds of java environment: the JRE (Java Runtime Environment) and the JDK (Java Developer Kit). You need Java 1.6, as Java 1.5 is too old and is missing some advanced functionnalities of Java 1.6 that are used in the Qualipso Factory. Also, you need to be able to develop Java program, and especially to compile Java source code into Java bytecode. The JRE environment contains only the necessary things to RUN Java program, but nothing to develop (no compiler), so you need the JDK, not the JRE. In summary, you need to have the Java JDK 1.6 running on the system.</p>
     	<p>You can test your version of JDK throught the shell:
@@ -144,7 +144,7 @@
 		
         <!-- SVN -->
 		<div class="step">
-		  <h3><a name="SVN">Step 2: installing Subversion</a></h3>
+		  <h3><a name="SVN"></a>Step 2: installing Subversion</h3>
 			<h4>Version needed: 1.6</h4>
 			<p>Subversion is the main version control system (VCS) used for the sources of the factory, on the INRIA GForge forge. You need to install a client of the same version than used on the GForge server, that is version 1.6. If you don't, you will get error message and won't be able to commit.</p>
     	<p>You can test your version of svn throught the shell:
@@ -200,7 +200,7 @@
 		
 		 <!-- GIT -->
 		<div class="step">
-		  <h3><a name="GIT">Step 3: installing Git</a></h3>
+		  <h3><a name="GIT"></a>Step 3: installing Git</h3>
 			<h4>Version needed: 1.6</h4>
 			<p>Git is another source control system, but a distributed one (DVCS). As some qualipso developers use it, it's a good idea to install it.</p>
 			<p>You can test your version of git throught the shell:
@@ -255,7 +255,7 @@
 		
 		<!-- Maven -->
 		<div class="step">
-		  <h3><a name="MAVEN">Step 4: installing Maven</a></h3>
+		  <h3><a name="MAVEN"></a>Step 4: installing Maven</h3>
 			<h4>Version needed: 2</h4>
 			<p>Maven is the software project management used in the Qualipso Factory. You can think of it as a "make" or "ant" on steroid. Maven manage building phases and dependencies, using a "pom.xml" file, that contains all necessary informations. Maven manage dependencies to other jar by downloading them from well-known repositories and keeping them in a local repository, the <em>".m2"</em> folder at the root of your home directory. A specific maven repository has been set up at <a href=" http://radis.loria.fr/maven2/">http://radis.loria.fr/maven2/</a>. This repository contains a cache of all jars needed by the Qualipso Factory, and also of the Qualipso Factory jars themselfs. With this repository, it is possible to create a factory service without even directly downloading the forge jars, as they will be donwloaded and added as necessary directly by Maven</p>
 			<p  class="steps">The main useful phases for the Qualispo factory are:</p>
@@ -306,7 +306,7 @@
 		
 		<!-- JBoss -->
 		<div class="step">
-			<h3><a name="JBOSS">Step 5: installing JBoss</a></h3>
+			<h3><a name="JBOSS"></a>Step 5: installing JBoss</h3>
 			<h4>Version needed: 5.0.1.GA</h4>
 			<p>JBoss AS (Application Server) is the EJB3 application server used for Qualipso Factory. Be careful about the version number here. At the time of this writing, the last version of JBoss AS is 5.<strong>1.0</strong>. We don't use this version, but the just previous one, JBoss AS 5.<strong>0.1</strong>.</p>
 			<p>
@@ -348,7 +348,7 @@
 		
 		<!-- Eclipse -->
 		<div class="step">
-		  <h3><a name="ECLIPSE">Step 6: installing Eclipse</a></h3>
+		  <h3><a name="ECLIPSE"></a>Step 6: installing Eclipse</h3>
 		  <h4>Version needed: 3.5 (Galileo) JEE</h4>
 		  <p>Eclipse is the Java IDE used to develop the Qualipso Factory and its services. Thanks to its plugins architecture, it is easily extendable to to a rich diversity of tasks. Comparable to linux distribs, there are several "Eclipse distrib", all containing the same base Eclipse IDE, differing only by the plugins already installed in the distrib. In order to develop for the Qualipso Factory, you logically need the JEE Eclipse distribution.</p>
 		  <p>
@@ -398,7 +398,7 @@
 		
 		<!-- Eclipse SVN plugin -->
 		<div class="step">
-		  <h3><a name="SVN_ECLIPSE">Step 7: installing SVN Eclipse plugin</a></h3>
+		  <h3><a name="SVN_ECLIPSE"></a>Step 7: installing SVN Eclipse plugin</h3>
 		  <p>Subclipse plugin allow you to use svn commands like commit and update directly from Eclipse projects.</p>
 		  <p>
 		    Installation of an Eclipse plugin is done directly within Eclipse:</p>
@@ -431,7 +431,7 @@
 		
 		 <!-- Eclipse Git plugin -->
 		<div class="step">
-		  <h3><a name="GIT_ECLIPSE">Step 8: installing Git Eclipse plugin</a></h3>
+		  <h3><a name="GIT_ECLIPSE"></a>Step 8: installing Git Eclipse plugin</h3>
 		  <p>Git plugin allow you to use git commands like commit and pull directly from Eclipse projects.</p>
 		  <p>
 		    Installation of an Eclipse plugin is done directly within Eclipse:</p>
@@ -464,7 +464,7 @@
 		
 	  <!-- Eclipse maven plugin -->
 		<div class="step">
-		  <h3><a name="MAVEN_ECLIPSE">Step 9: installing maven Eclipse plugin</a></h3>
+		  <h3><a name="MAVEN_ECLIPSE"></a>Step 9: installing maven Eclipse plugin</h3>
 		  <p>Maven plugin allow you to use maven commands like test, package and install directly from Eclipse projects. Projects should be created or imported as maven projects, instead of classic Eclipse project. Then, maven is used instead of the internal build system of eclipse, especially during continuous building.</p>
 		  <p>
 		    Installation of an Eclipse plugin is done directly within Eclipse:</p>
@@ -497,7 +497,7 @@
 		
 		<!-- Eclipse JBoss plugin -->
 		<div class="step">
-		  <h3><a name="JBOSS_ECLIPSE">Step 10: installing JBoss Eclipse plugin</a></h3>
+		  <h3><a name="JBOSS_ECLIPSE"></a>Step 10: installing JBoss Eclipse plugin</h3>
 		  <p>JBoss plugin allow you, directly from Eclipse, to launch, stop, and debug JBoss server,  to deploy/undeploy your jar/war/ear directly, and to access the server log.</p>
 		  <p>
 		    Installation of an Eclipse plugin is done directly within Eclipse:</p>
