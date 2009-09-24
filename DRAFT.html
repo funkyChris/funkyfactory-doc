@@ -1,0 +1,69 @@
+    
+			  <p>In this interface, define the methods that you want your service to provide to others. Don't forget that the service is stateless: it doesn't maintain any session information between two requests. So you need to design your methods signatures so that all necessary information are passed to the service. One exception to that is the name of the current user, which is taken care of by the authentication and the membership service (more on that later).</p>
+			  <p>In this example, the TwitterService will represent the tweet with a <em>Tweet</em> class. This <em>Tweet</em> class will be a factory resource, managed by the TwitterService (it will be defined later in this tutorial).</p>
+			  <p>The TwitterService defines the following methods:</p>
+			  <ul class="projects">
+			    <li><kbd>twit(String tweet)</kbd> create a new tweet for the currently logged user</li>
+			    <li><kbd>Tweet[] getAllTweets(String userProfilePath)</kbd> returns all tweets of specified user</li>  
+			  </ul>
+			  <p>Of course, those methods are not enough for a <em>real</em> twitter service, but they are enough for this tutorial.</p>
+			  <p>Thoses methods should be defined as throwing a <em>TwitterServiceException</em>, an exception specific for your service. This exception is defined in the file of the same name (more on that on the next step).</p>
+			  <pre><samp>
+public interface TwitterService extends FactoryService {<kbd class="new">
+  public void twit(String tweet) 
+    throws TwitterServiceException;
+    
+  public Tweet[] getAllTweets(String userProfilePath) 
+    throws TwitterServiceException; </kbd>
+}
+	    	    </samp></pre>
+			  </li>
+			  
+			  
+			  <li>
+			    <p>Once the methods are defined, it is necessary to make this interface remotely accessible. The service should provide two remote access: a RMI remote access, for other EJB or servlets for example, and a web service access, in SOAP. Both those access are defined by adding specific annotations to the interface.</p>
+			   <p>To provide a RMI remote access, you only need to add a <kbd>@Remote</kbd> annotation to the interface itself:</p>
+			   	<pre><samp><kbd class="new">
+@Remote</kbd>
+public interface TwitterService extends FactoryService {
+  public void twit(String tweet) 
+    throws TwitterServiceException;
+    
+  public Tweet[] getAllTweets(String userProfilePath) 
+    throws TwitterServiceException; 
+}
+	    	    </samp></pre>
+			  </li>
+			  
+			  
+			  <li>
+			    <p>To provide a web service SOAP remote access, you need to add several annotations:</p>
+			    <ul>
+			      <li>You need to add a <kbd>@WebService</kbd> annotation on the interface itself. In this annotation, you define the name under which the generated webservice will be known, and its namespace. As a convention, in the factory, the webservice name is the same as the interface, and the target namespace is <kbd>http://org.qualipso.funkyfactory.ws/service</kbd> (but you can change if you have a good reason to do so)</li>
+			      <li>You also need to add a <kbd>@SOAPBinding</kbd> annotation to the interface, to define which SOAP binding the web service will use. As a convention, in the factory, the web service use a RPC binding (same thing, you can change that if you have a good reason)</li>
+			      <li>You need to add a <kbd>@WebMethod</kbd> annotation to each and all methods that you want to be accessible through the webservice access, that is ALL methods defined in the interface, in the case of a FactoryService interface.</li>
+			      <li>Finally, you need to add a <kbd>@WebResult</kbd> annotation to each method that return a result. The annotation define the SOAP name that will contains the return value.</li>
+			    </ul>
+			    <pre><samp>
+@Remote<kbd class="new">
+@WebService(name = "TwitterService", 
+  targetNamespace = "http://org.qualipso.funkyfactory.ws/service")
+@SOAPBinding(style = SOAPBinding.Style.RPC)</kbd>
+public interface TwitterService extends FactoryService {
+<kbd class="new">
+  @WebMethod</kbd>
+  public void twit(String tweet) 
+    throws TwitterServiceException;
+<kbd class="new">
+  @WebMethod
+  @WebResult(name = "tweets")</kbd>
+  public Tweet[] getAllTweets(String userProfilePath) 
+    throws TwitterServiceException; 
+}
+	    	    </samp></pre>
+			    With those annotation, JBoss will automatically provide a web service SOAP remote access to the service, following the preferences specified in the annotations.
+			  </li>
+
+	 
+The service exception class also need to be annotated with the <kbd>@WebFault</kbd> annotation, so that the exception can be propagated through SOAP messages, when the service is accessed through its webservice interface.</p>
+			

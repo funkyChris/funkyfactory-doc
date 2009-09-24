@@ -84,8 +84,16 @@ a:hover {
   background-repeat:repeat-y;
 }
 
-#introduction {
+#introduction, #global-introduction {
   padding-bottom: 44px;
+}
+
+#introduction, #global-introduction ul {
+  margin-bottom: 10px;
+}
+
+#introduction, #global-introduction li {
+  margin-bottom: 5px;
 }
 
 #checklist {
