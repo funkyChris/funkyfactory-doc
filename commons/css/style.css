@@ -31,6 +31,7 @@ ol, ul {
 }
 
 h1 {
+  height: 90px;
   text-align: center;
   padding: 50px 0;
   border-bottom: 5px solid #c0943b;
@@ -262,6 +263,33 @@ dd {
 
 #menu_global #selected a {
   color: #b22d00;
+}
+
+#menu_all {
+  position: absolute;
+  top: 161px;
+  right: 0px;
+}
+
+#menu_all li {
+  display: block;
+  float: left;
+  background-color: #b28937;
+  margin: 0 2px;
+  padding: 5px 10px;
+  font-weight: bold;
+}
+
+#menu_all a {
+  color: #EEE;
+}
+
+#menu_all .selected {
+  background-color: #c0943b;
+}
+
+#menu_all .selected a {
+  color: #FFF;
 }
 
 #footer {
