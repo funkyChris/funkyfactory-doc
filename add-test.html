@@ -48,9 +48,9 @@
 		  <h2>Steps:</h2>
 		  <ul>
 		    <li><a href="#UNIT">Unit testing</a></li>
-		    <li><a href="#FUNCTIONAL">Functionnal testing project</a></li>
+		    <li><a href="#FUNCTIONAL">Functionnal tests project</a></li>
 		    <li><a href="#FUNCTIONAL_IMPL">Functionnal tests</a></li>
-		    <li><a href="#WEBSERVICE">WebService testing project</a></li>
+		    <li><a href="#WEBSERVICE">WebService tests project</a></li>
 		    <li><a href="#WEBSERVICE_IMPL">WebService tests</a></li>
 	    </ul>
 	 </div>
@@ -96,7 +96,7 @@
 			    The <em>BaseSessionBeanFixture&lt;T&gt;</em> class is part of the ejb3unit library. It define a fixture, that is a set of unit tests, that will be run against a specific EJB. This specific EJB (<em>TwitterServiceBean</em> here) is given as parametized type to <em>BaseSessionBeanFixture&lt;T&gt;</em>. This way, ejb3unit will manage the life cycle of the EJB <em>TwitterServiceBean</em> (instanciate, destroy, etc.) and will run each tests against this EJB.
 			  </li>
 			  <li>
-			    <em>BaseSessionBeanFixturew&lt;T&gt;</em> doesn't provide a default constructor without any parameters, so you need to implement a constructor that call one of the defined constructor of <em>BaseSessionBeanFixturew&lt;T&gt;</em>. You will call <kbd>BaseSessionBeanFixture(Class&lt;T&gt; sessionBeanToTest, Class[] usedEntityBeans)</kbd>. The first parameter is the class of the EJB you will test: here, it's' the class of the service you will test (<em>TwitterServiceBean</em>). Let the second parameter to <kbd>usedEntityBeans</kbd> for now:
+			    <em>BaseSessionBeanFixture&lt;T&gt;</em> doesn't provide a default constructor without any parameters, so you need to implement a constructor that call one of the defined constructor of <em>BaseSessionBeanFixture&lt;T&gt;</em>. You will call <kbd>BaseSessionBeanFixture(Class&lt;T&gt; sessionBeanToTest, Class[] usedEntityBeans)</kbd>. The first parameter is the class of the EJB you will test: here, it's' the class of the service you will test (<em>TwitterServiceBean</em>). Let the second parameter to <kbd>usedEntityBeans</kbd> for now:
 <pre><samp>public class TwitterServiceTest 
   extends BaseSessionBeanFixture&lt;TwitterServiceBean&gt; {
   
